@@ -489,3 +489,66 @@ nohup: ignoring input
 2026-09-27T21:20:38Z INF Registered tunnel connection connIndex=3 connection=341eb11b-3a21-44f0-b918-d4d0277d037e event=0 ip=198.41.200.33 location=bom09 protocol=quic
 2026-09-27T21:20:39Z INF Registered tunnel connection connIndex=2 connection=aa632c57-5ab4-47ff-b1b8-c4058c243ec9 event=0 ip=198.41.200.43 location=bom12 protocol=quic
 2026-09-27T21:20:39Z INF Registered tunnel connection connIndex=1 connection=ad78a3d7-95b7-4a36-82f0-c8bbc77f1814 event=0 ip=2606:4700:a0::1 location=bom03 protocol=quic
+2026-09-27T21:45:44Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T21:45:44Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.200.43
+2026-09-27T21:45:44Z INF Retrying connection in up to 2s connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T21:45:44Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.33
+2026-09-27T21:45:44Z INF Retrying connection in up to 2s connIndex=3 event=0 ip=198.41.200.33
+2026-09-27T21:45:44Z INF Retrying connection in up to 2s connIndex=2 event=0 ip=198.41.200.43
+2026-09-27T21:45:44Z ERR Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1 event=0 ip=2606:4700:a0::1
+2026-09-27T21:45:44Z INF Retrying connection in up to 2s connIndex=1 event=0 ip=2606:4700:a0::1
+2026-09-27T21:45:44Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=3
+2026-09-27T21:45:44Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=2
+2026-09-27T21:45:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=2606:4700:a0::3
+2026-09-27T21:45:45Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1
+2026-09-27T21:45:45Z INF Registered tunnel connection connIndex=0 connection=fcb6eda2-e8f8-4cd0-99d1-7bf2f114f727 event=0 ip=2606:4700:a0::3 location=bom06 protocol=quic
+2026-09-27T21:45:58Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=1 event=0 ip=198.41.192.37
+2026-09-27T21:45:58Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=2606:4700:a8::4
+2026-09-27T21:45:58Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=3 event=0 ip=2606:4700:a8::5
+2026-09-27T21:45:59Z INF Registered tunnel connection connIndex=2 connection=27862042-1d7b-43c0-af34-665185d77dd8 event=0 ip=2606:4700:a8::4 location=bom08 protocol=quic
+2026-09-27T21:45:59Z INF Registered tunnel connection connIndex=3 connection=799c24f9-2cfe-4833-9cb7-2c31a8ee3399 event=0 ip=2606:4700:a8::5 location=bom11 protocol=quic
+2026-09-27T21:45:59Z INF Registered tunnel connection connIndex=1 connection=9bc99d5b-5347-40b9-8aba-ee91ab340d15 event=0 ip=198.41.192.37 location=bom06 protocol=quic
+2026-09-27T23:04:56Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=2606:4700:a8::5
+2026-09-27T23:04:56Z INF Retrying connection in up to 2s connIndex=3 event=0 ip=2606:4700:a8::5
+2026-09-27T23:04:56Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=0 event=0 ip=2606:4700:a0::3
+2026-09-27T23:04:56Z INF Retrying connection in up to 2s connIndex=0 event=0 ip=2606:4700:a0::3
+2026-09-27T23:04:56Z WRN Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=3
+2026-09-27T23:04:56Z WRN Serve tunnel error error="datagram manager error: timeout: no recent network activity" connIndex=2 event=0 ip=2606:4700:a8::4
+2026-09-27T23:04:56Z INF Retrying connection in up to 2s connIndex=2 event=0 ip=2606:4700:a8::4
+2026-09-27T23:04:56Z ERR Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1 event=0 ip=198.41.192.37
+2026-09-27T23:04:56Z INF Retrying connection in up to 2s connIndex=1 event=0 ip=198.41.192.37
+2026-09-27T23:04:57Z ERR Connection terminated error="datagram manager error: timeout: no recent network activity" connIndex=2
+2026-09-27T23:04:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=2606:4700:a0::8
+2026-09-27T23:04:57Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp [::]:41553->[2606:4700:a0::8]:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=2606:4700:a0::8
+2026-09-27T23:04:57Z INF Retrying connection in up to 4s connIndex=0 event=0 ip=2606:4700:a0::8
+2026-09-27T23:04:57Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1
+2026-09-27T23:05:00Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T23:05:00Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp [::]:41553->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T23:05:00Z INF Retrying connection in up to 8s connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T23:05:05Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=2606:4700:a0::5
+2026-09-27T23:05:05Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=1 event=0 ip=198.41.200.23
+2026-09-27T23:05:05Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=3 event=0 ip=198.41.200.53
+2026-09-27T23:05:05Z INF Registered tunnel connection connIndex=1 connection=fe718651-f89b-4971-b9cc-69bcb08203de event=0 ip=198.41.200.23 location=bom09 protocol=quic
+2026-09-27T23:05:06Z INF Registered tunnel connection connIndex=2 connection=f88d624e-afa1-4d05-bea0-2307adbd3aa6 event=0 ip=2606:4700:a0::5 location=bom03 protocol=quic
+2026-09-27T23:05:06Z INF Registered tunnel connection connIndex=3 connection=46ff3e50-a25c-41d3-b134-4685a8c9029a event=0 ip=198.41.200.53 location=bom09 protocol=quic
+2026-09-27T23:05:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=2606:4700:a0::7
+2026-09-27T23:05:06Z INF Registered tunnel connection connIndex=0 connection=e90c7334-db07-4197-a5de-c0cdeef8b4e1 event=0 ip=2606:4700:a0::7 location=bom03 protocol=quic
+2026-09-27T23:20:40Z WRN Serve tunnel error error="datagram manager error: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.53
+2026-09-27T23:20:40Z INF Retrying connection in up to 2s connIndex=3 event=0 ip=198.41.200.53
+2026-09-27T23:20:40Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=0 event=0 ip=2606:4700:a0::7
+2026-09-27T23:20:40Z INF Retrying connection in up to 2s connIndex=0 event=0 ip=2606:4700:a0::7
+2026-09-27T23:20:40Z WRN Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1 event=0 ip=198.41.200.23
+2026-09-27T23:20:40Z INF Retrying connection in up to 2s connIndex=1 event=0 ip=198.41.200.23
+2026-09-27T23:20:40Z ERR Serve tunnel error error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=2606:4700:a0::5
+2026-09-27T23:20:40Z INF Retrying connection in up to 2s connIndex=2 event=0 ip=2606:4700:a0::5
+2026-09-27T23:20:40Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=1
+2026-09-27T23:20:40Z ERR Connection terminated error="datagram manager error: timeout: no recent network activity" connIndex=3
+2026-09-27T23:20:41Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=0 event=0 ip=198.41.192.27
+2026-09-27T23:20:41Z ERR Connection terminated error="accept stream listener error: failed to accept QUIC stream: timeout: no recent network activity" connIndex=2
+2026-09-27T23:20:42Z INF Registered tunnel connection connIndex=0 connection=e40d2f00-9dba-4af8-9a85-6e30697d7ccc event=0 ip=198.41.192.27 location=bom06 protocol=quic
+2026-09-27T23:20:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=1 event=0 ip=198.41.192.107
+2026-09-27T23:20:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=3 event=0 ip=2606:4700:a8::5
+2026-09-27T23:20:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256] connIndex=2 event=0 ip=2606:4700:a8::8
+2026-09-27T23:20:44Z INF Registered tunnel connection connIndex=2 connection=0f4f74d0-e678-4947-b977-e2ad47693983 event=0 ip=2606:4700:a8::8 location=bom08 protocol=quic
+2026-09-27T23:20:44Z INF Registered tunnel connection connIndex=3 connection=8347f54e-d276-4c15-aca3-26f8f0c9df5c event=0 ip=2606:4700:a8::5 location=bom11 protocol=quic
+2026-09-27T23:20:44Z INF Registered tunnel connection connIndex=1 connection=07ee3f71-98a9-4e25-aa72-2b7c0807c5c4 event=0 ip=198.41.192.107 location=bom06 protocol=quic
