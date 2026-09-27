@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NurseInHome - Professional Home Care Services</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; color: #333; }
+        .header { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo-area { display: flex; align-items: center; font-size: 20px; font-weight: bold; color: #0f4c3a; }
+        .logo-icon { width: 35px; height: 35px; background: #0f4c3a; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-right: 10px; }
+        .admin-btn { background: #f0f2f5; border: none; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; color: #0f4c3a; }
+        
+        .tabs { display: flex; background: #e2e8f0; margin: 20px; border-radius: 12px; padding: 4px; }
+        .tab { flex: 1; text-align: center; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 10px; color: #4a5568; }
+        .tab.active { background: white; color: #0f4c3a; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        .container { max-width: 600px; margin: 0 auto 40px auto; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .founder-box { background: #eef5ff; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 14px; border-left: 4px solid #0f4c3a; }
+        
+        h2 { text-align: center; color: #1a202c; margin-top: 10px; }
+        .subtitle { text-align: center; font-size: 13px; color: #718096; margin-bottom: 20px; }
+
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; color: #2d3748; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; font-size: 14px; background: #fff; }
+        
+        .gps-btn { background: #e6fffa; color: #0f4c3a; border: 1px solid #b2f5ea; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; float: right; cursor: pointer; margin-top: -35px; margin-right: 5px; }
+
+        .payment-box { background: #fffdf0; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .payment-title { font-weight: bold; color: #713f12; font-size: 14px; }
+        .pay-app-btn { background: #f59e0b; color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; float: right; cursor: pointer; margin-top: -15px; font-size: 13px; }
+        .pay-app-btn:hover { background: #d97706; }
+        
+        .submit-btn { background: #0f4c3a; color: white; border: none; padding: 15px; width: 100%; margin-top: 25px; font-size: 16px; font-weight: bold; border-radius: 12px; cursor: pointer; text-align: center; box-shadow: 0 4px 10px rgba(15, 76, 58, 0.2); }
+        .submit-btn:hover { background: #0b382a; }
+        
+        .msg { margin-top: 15px; text-align: center; font-weight: bold; font-size: 14px; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+
+        /* Admin Dashboard Styles */
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+        th, td { border: 1px solid #cbd5e0; padding: 8px; text-align: left; }
+        th { background: #edf2f7; color: #2d3748; }
+        .logout-btn { background: #fed7d7; color: #9b2c2c; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; float: right; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo-area" onclick="showMainSite()" style="cursor: pointer;">
+        <div class="logo-icon">🏠</div> NurseInHome
+    </div>
+    <button class="admin-btn" id="adminHeaderBtn" onclick="toggleAdminLogin()">Admin Login</button>
+</div>
+
+<!-- PUBLIC WEBSITE VIEW -->
+<div id="publicView">
+    <div class="tabs">
+        <div class="tab active" id="tabBook" onclick="switchTab('book')">Book Care Service</div>
+        <div class="tab" id="tabProf" onclick="switchTab('prof')">Join as Professional</div>
+    </div>
+
+    <div class="container">
+        <div class="founder-box" id="founder-info">
+            <strong>Founder:</strong> Soniya Pal (MSc Nursing)<br>Founder & Chief Nursing Officer
+        </div>
+
+        <!-- BOOKING FORM -->
+        <div class="form-section active" id="sectionBook">
+            <h2>Book Nurse or Househelp</h2>
+            <div class="subtitle">₹200 Registration • Connected within 15 Days</div>
+            
+            <form id="bookingForm">
+                <label>Full Name</label>
+                <input type="text" id="bookName" placeholder="Full Name" required>
+                
+                <label>Phone Number</label>
+                <input type="tel" id="bookPhone" placeholder="Phone Number" required>
+                
+                <label>Select Service Required</label>
+                <select id="bookService">
+                    <option value="Elder Care">Elder Care</option>
+                    <option value="Patient Care">Patient Care</option>
+                    <option value="Post-Operative Care">Post-Operative Care</option>
+                    <option value="Injection/Dressing">Injection / Dressing</option>
+                    <option value="Househelp / Maid">Househelp / Maid</option>
+                </select>
+
+                <label>HOME ADDRESS</label>
+                <button type="button" class="gps-btn" onclick="alert('GPS Detected')">📍 Detect Precise GPS</button>
+                <textarea id="bookAddress" rows="3" placeholder="Complete Address or use GPS button" required></textarea>
+
+                <div class="payment-box">
+                    <div class="payment-title">PAY REGISTRATION<br>FEE: ₹200</div>
+                    <button type="button" class="pay-app-btn" onclick="payWithRazorpay('customer')">Pay via Razorpay</button>
+                    <label style="margin-top: 25px; color: #713f12;">Payment ID:</label>
+                    <input type="text" id="bookUtr" placeholder="Auto-filled via Razorpay payment" readonly style="background: #f7fafc; color: #4a5568;">
+                </div>
+
+                <button type="button" class="submit-btn" onclick="submitForm('customer')">Submit Booking & Verify Payment</button>
+                <p class="msg" id="bookMsg"></p>
+            </form>
+        </div>
+
+        <!-- PROFESSIONAL REGISTRATION FORM -->
+        <div class="form-section" id="sectionProf">
+            <h2>Join as Professional</h2>
+            <div class="subtitle">₹200 Registration • Direct Client Connections</div>
+            
+            <form id="providerForm">
+                <label>Full Name</label>
+                <input type="text" id="provName" placeholder="Full Name" required>
+                
+                <label>Phone Number</label>
+                <input type="tel" id="provPhone" placeholder="Phone Number" required>
+                
+                <label>Select Your Profession</label>
+                <select id="provRole">
+                    <option value="Professional Home Nurse">Professional Home Nurse</option>
+                    <option value="Baby Sitter / Nanny">Baby Sitter / Nanny</option>
+                    <option value="Househelp / Maid">Househelp / Maid</option>
+                </select>
+
+                <label>Years of Experience</label>
+                <input type="text" id="provExp" placeholder="e.g., 3 Years" required>
+
+                <label>YOUR LOCATION / ADDRESS</label>
+                <button type="button" class="gps-btn" onclick="alert('GPS Detected')">📍 Detect Precise GPS</button>
+                <textarea id="provAddress" rows="3" placeholder="Complete Address or use GPS button" required></textarea>
+
+                <div class="payment-box">
+                    <div class="payment-title">PAY REGISTRATION<br>FEE: ₹200</div>
+                    <button type="button" class="pay-app-btn" onclick="payWithRazorpay('provider')">Pay via Razorpay</button>
+                    <label style="margin-top: 25px; color: #713f12;">Payment ID:</label>
+                    <input type="text" id="provUtr" placeholder="Auto-filled via Razorpay payment" readonly style="background: #f7fafc; color: #4a5568;">
+                </div>
+
+                <button type="button" class="submit-btn" onclick="submitForm('provider')">Submit Profile & Verify Payment</button>
+                <p class="msg" id="provMsg"></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ADMIN CONTROL PANEL VIEW -->
+<div class="container admin-panel" id="adminView">
+    <h2>Admin Control Panel <button class="logout-btn" onclick="showMainSite()">Logout</button></h2>
+    
+    <div class="tabs" style="margin: 10px 0;">
+        <div class="tab active" id="adminTabBook" onclick="switchAdminTab('bookings')">Customer Bookings</div>
+        <div class="tab" id="adminTabProf" onclick="switchAdminTab('providers')">Registered Professionals</div>
+    </div>
+
+    <div id="adminBookingsTable">
+        <h3>Customer Bookings</h3>
+        <div id="bookingsList">Loading...</div>
+    </div>
+
+    <div id="adminProvidersTable" style="display:none;">
+        <h3>Registered Professionals</h3>
+        <div id="providersList">Loading...</div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tab) {
+        if(tab === 'book') {
+            document.getElementById('tabBook').classList.add('active');
+            document.getElementById('tabProf').classList.remove('active');
+            document.getElementById('sectionBook').classList.add('active');
+            document.getElementById('sectionProf').classList.remove('active');
+        } else {
+            document.getElementById('tabProf').classList.add('active');
+            document.getElementById('tabBook').classList.remove('active');
+            document.getElementById('sectionProf').classList.add('active');
+            document.getElementById('sectionBook').classList.remove('active');
+        }
+    }
+
+    function switchAdminTab(tab) {
+        if(tab === 'bookings') {
+            document.getElementById('adminTabBook').classList.add('active');
+            document.getElementById('adminTabProf').classList.remove('active');
+            document.getElementById('adminBookingsTable').style.display = 'block';
+            document.getElementById('adminProvidersTable').style.display = 'none';
+        } else {
+            document.getElementById('adminTabProf').classList.add('active');
+            document.getElementById('adminTabBook').classList.remove('active');
+            document.getElementById('adminBookingsTable').style.display = 'none';
+            document.getElementById('adminProvidersTable').style.display = 'block';
+        }
+    }
+
+    // Fetch Founder Details on Load
+    fetch('/api/founder')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                document.getElementById('founder-info').innerHTML = `
+                    <strong>Founder:</strong> ${data.founder.name} (${data.founder.qualification})<br>
+                    <span>${data.founder.role}</span>
+                `;
+            }
+        });
+
+    let verifiedPaymentId = { customer: '', provider: '' };
+
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === 'customer' ? 'bookMsg' : 'provMsg');
+        msgEl.style.color = '#333';
+        msgEl.innerText = 'Initializing Razorpay secure payment...';
+
+        try {
+            const orderRes = await fetch('/api/create-order', { method: 'POST' });
+            const orderData = await orderRes.json();
+
+            if (!orderData.success) {
+                alert('Error creating order: ' + orderData.message);
+                msgEl.innerText = '';
+                return;
+            }
+
+            const options = {
+                key: orderData.key_id,
+                amount: orderData.order.amount,
+                currency: "INR",
+                name: "NurseInHome",
+                description: "Registration & Service Fee (₹200)",
+                order_id: orderData.order.id,
+                handler: function (response) {
+                    verifiedPaymentId[type] = response.razorpay_payment_id;
+                    if(type === 'customer') {
+                        document.getElementById('bookUtr').value = response.razorpay_payment_id;
+                    } else {
+                        document.getElementById('provUtr').value = response.razorpay_payment_id;
+                    }
+                    msgEl.style.color = 'green';
+                    msgEl.innerText = 'Payment successful! Reference ID captured.';
+                },
+                prefill: {
+                    name: document.getElementById(type === 'customer' ? 'bookName' : 'provName').value,
+                    contact: document.getElementById(type === 'customer' ? 'bookPhone' : 'provPhone').value
+                },
+                theme: { color: "#0f4c3a" }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+            msgEl.innerText = '';
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = 'red';
+            msgEl.innerText = 'Payment gateway error.';
+        }
+    }
+
+    async function submitForm(type) {
+        const msgEl = document.getElementById(type === 'customer' ? 'bookMsg' : 'provMsg');
+        
+        if (!verifiedPaymentId[type]) {
+            alert('Please complete the ₹200 payment via Razorpay first!');
+            return;
+        }
+
+        msgEl.style.color = '#333';
+        msgEl.innerText = 'Submitting details...';
+
+        let endpoint = type === 'customer' ? '/api/book' : '/api/provider/register';
+        let payload = {};
+
+        if (type === 'customer') {
+            payload = {
+                name: document.getElementById('bookName').value,
+                phone: document.getElementById('bookPhone').value,
+                serviceType: document.getElementById('bookService').value,
+                address: document.getElementById('bookAddress').value,
+                razorpay_payment_id: verifiedPaymentId.customer
+            };
+        } else {
+            payload = {
+                name: document.getElementById('provName').value,
+                phone: document.getElementById('provPhone').value,
+                role: document.getElementById('provRole').value,
+                experience: document.getElementById('provExp').value,
+                address: document.getElementById('provAddress').value,
+                razorpay_payment_id: verifiedPaymentId.provider
+            };
+        }
+
+        try {
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                msgEl.style.color = 'green';
+                msgEl.innerText = data.message;
+                document.getElementById(type === 'customer' ? 'bookingForm' : 'providerForm').reset();
+                verifiedPaymentId[type] = '';
+                if(type === 'customer') document.getElementById('bookUtr').value = '';
+                else document.getElementById('provUtr').value = '';
+            } else {
+                msgEl.style.color = 'red';
+                msgEl.innerText = data.message;
+            }
+        } catch (err) {
+            msgEl.style.color = 'red';
+            msgEl.innerText = 'Submission failed.';
+        }
+    }
+
+    async function toggleAdminLogin() {
+        const username = prompt("Enter Admin Username:");
+        if (!username) return;
+        const password = prompt("Enter Admin Password:");
+        if (!password) return;
+
+        try {
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                document.getElementById('publicView').style.display = 'none';
+                document.getElementById('adminView').classList.add('active');
+                loadAdminData();
+            } else {
+                alert('Invalid Admin Credentials!');
+            }
+        } catch (err) {
+            alert('Login request failed.');
+        }
+    }
+
+    function showMainSite() {
+        document.getElementById('publicView').style.display = 'block';
+        document.getElementById('adminView').classList.remove('active');
+    }
+
+    async function loadAdminData() {
+        try {
+            // Load Bookings
+            const bRes = await fetch('/api/admin/bookings');
+            const bData = await bRes.json();
+            if (bData.success) {
+                if (bData.bookings.length === 0) {
+                    document.getElementById('bookingsList').innerHTML = '<p>No customer bookings yet.</p>';
+                } else {
+                    let html = '<table><tr><th>ID</th><th>Name & Phone</th><th>Service</th><th>Payment ID</th><th>Location</th></tr>';
+                    bData.bookings.forEach(b => {
+                        html += `<tr><td>${b.id}</td><td><b>${b.name}</b><br>${b.phone}</td><td>${b.serviceType}</td><td><code>${b.paymentId}</code></td><td>${b.address}</td></tr>`;
+                    });
+                    html += '</table>';
+                    document.getElementById('bookingsList').innerHTML = html;
+                }
+            }
+
+            // Load Providers
+            const pRes = await fetch('/api/admin/providers');
+            const pData = await pRes.json();
+            if (pData.success) {
+                if (pData.providers.length === 0) {
+                    document.getElementById('providersList').innerHTML = '<p>No professionals registered yet.</p>';
+                } else {
+                    let html = '<table><tr><th>ID</th><th>Name & Phone</th><th>Role & Exp</th><th>Payment ID</th><th>Location</th></tr>';
+                    pData.providers.forEach(p => {
+                        html += `<tr><td>${p.id}</td><td><b>${p.name}</b><br>${p.phone}</td><td>${p.role}<br>${p.experience}</td><td><code>${p.paymentId}</code></td><td>${p.address}</td></tr>`;
+                    });
+                    html += '</table>';
+                    document.getElementById('providersList').innerHTML = html;
+                }
+            }
+        } catch (err) {
+            console.error('Error loading admin data', err);
+        }
+    }
+</script>
+
+</body>
+</html>
