@@ -1,9 +1,7 @@
 name: Deploy to Cloudflare Pages
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,7 +11,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@1
         with:
