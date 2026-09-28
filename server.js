@@ -17,7 +17,7 @@ let providers = [];
 app.get("/api/founder", (req, res) => {
   res.json({
     success: true,
-    founder: { name: "Soniya Pal", qualification: "MSc Nursing", role: "Founder & Chief Nursing Officer" }
+    founder: { name: "NurseInHome Care Team" }
   });
 });
 

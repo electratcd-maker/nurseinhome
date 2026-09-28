@@ -1,0 +1,37 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/admin/login",
+      "mountPath": "/api/admin",
+      "method": "POST",
+      "module": [
+        "api/admin/login.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/create-order",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/create-order.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/founder",
+      "mountPath": "/api",
+      "method": "GET",
+      "module": [
+        "api/founder.js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/:path*",
+      "mountPath": "/api",
+      "method": "",
+      "module": [
+        "api/[[path]].js:onRequest"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}
