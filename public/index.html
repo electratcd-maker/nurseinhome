@@ -84,6 +84,80 @@
         }
     });
 
+
+    // Updated Redirect to Payment Bridge keeping user details in URL
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+        const service = type === "customer" ? document.getElementById("bookService").value : document.getElementById("provRole").value;
+        const address = document.getElementById(type === "customer" ? "bookAddress" : "provAddress") ? document.getElementById(type === "customer" ? "bookAddress" : "provAddress").value : "";
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://pay.electra.help/?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&service=${encodeURIComponent(service)}&address=${encodeURIComponent(address)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed. Please call support at +91 9109187758");
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment error. Contact +91 9109187758 for help.";
+        }
+    }
+
+    // Capture payment and user details on redirect back
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        const name = params.get("name");
+        const phone = params.get("phone");
+        const service = params.get("service");
+        const address = params.get("address");
+
+        if (name) {
+            const nameEl = document.getElementById(type === "customer" ? "bookName" : "provName");
+            if (nameEl) nameEl.value = name;
+        }
+        if (phone) {
+            const phoneEl = document.getElementById(type === "customer" ? "bookPhone" : "provPhone");
+            if (phoneEl) phoneEl.value = phone;
+        }
+        if (address) {
+            const addrEl = document.getElementById(type === "customer" ? "bookAddress" : "provAddress");
+            if (addrEl) addrEl.value = address;
+        }
+
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment Verified! Click Submit below to complete your booking. Support: +91 9109187758";
+            }
+        }
+    });
+
 </script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; color: #333; }
@@ -128,6 +202,11 @@
         .logout-btn { background: #fed7d7; color: #9b2c2c; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; float: right; cursor: pointer; }
     </style>
 </head>
+
+<div style="background:#0f4c3a; color:white; text-align:center; padding:8px; font-size:14px; font-weight:bold;">
+    📞 Need Support or Booking Assistance? Call/WhatsApp: <a href="tel:+919109187758" style="color:#ffdd57; text-decoration:none;">+91 9109187758</a>
+</div>
+
 <body>
 
 <div class="header">
@@ -530,6 +609,80 @@
         }
     });
 
+
+    // Updated Redirect to Payment Bridge keeping user details in URL
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+        const service = type === "customer" ? document.getElementById("bookService").value : document.getElementById("provRole").value;
+        const address = document.getElementById(type === "customer" ? "bookAddress" : "provAddress") ? document.getElementById(type === "customer" ? "bookAddress" : "provAddress").value : "";
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://pay.electra.help/?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&service=${encodeURIComponent(service)}&address=${encodeURIComponent(address)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed. Please call support at +91 9109187758");
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment error. Contact +91 9109187758 for help.";
+        }
+    }
+
+    // Capture payment and user details on redirect back
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        const name = params.get("name");
+        const phone = params.get("phone");
+        const service = params.get("service");
+        const address = params.get("address");
+
+        if (name) {
+            const nameEl = document.getElementById(type === "customer" ? "bookName" : "provName");
+            if (nameEl) nameEl.value = name;
+        }
+        if (phone) {
+            const phoneEl = document.getElementById(type === "customer" ? "bookPhone" : "provPhone");
+            if (phoneEl) phoneEl.value = phone;
+        }
+        if (address) {
+            const addrEl = document.getElementById(type === "customer" ? "bookAddress" : "provAddress");
+            if (addrEl) addrEl.value = address;
+        }
+
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment Verified! Click Submit below to complete your booking. Support: +91 9109187758";
+            }
+        }
+    });
+
 </script>
 
 <script src="bridge.js">
@@ -581,6 +734,80 @@
             if (msg) {
                 msg.style.color = "green";
                 msg.innerText = "Payment successful! Reference ID: " + paymentId;
+            }
+        }
+    });
+
+
+    // Updated Redirect to Payment Bridge keeping user details in URL
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+        const service = type === "customer" ? document.getElementById("bookService").value : document.getElementById("provRole").value;
+        const address = document.getElementById(type === "customer" ? "bookAddress" : "provAddress") ? document.getElementById(type === "customer" ? "bookAddress" : "provAddress").value : "";
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://pay.electra.help/?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&service=${encodeURIComponent(service)}&address=${encodeURIComponent(address)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed. Please call support at +91 9109187758");
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment error. Contact +91 9109187758 for help.";
+        }
+    }
+
+    // Capture payment and user details on redirect back
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        const name = params.get("name");
+        const phone = params.get("phone");
+        const service = params.get("service");
+        const address = params.get("address");
+
+        if (name) {
+            const nameEl = document.getElementById(type === "customer" ? "bookName" : "provName");
+            if (nameEl) nameEl.value = name;
+        }
+        if (phone) {
+            const phoneEl = document.getElementById(type === "customer" ? "bookPhone" : "provPhone");
+            if (phoneEl) phoneEl.value = phone;
+        }
+        if (address) {
+            const addrEl = document.getElementById(type === "customer" ? "bookAddress" : "provAddress");
+            if (addrEl) addrEl.value = address;
+        }
+
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment Verified! Click Submit below to complete your booking. Support: +91 9109187758";
             }
         }
     });
