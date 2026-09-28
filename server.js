@@ -25,7 +25,7 @@ app.post('/api/create-payment-link', async (req, res) => {
     const { name, phone, type, service } = req.body;
 
     const paymentLink = await razorpay.paymentLink.create({
-      amount: 20000, // ₹200 in paise
+      amount: 20000,
       currency: "INR",
       accept_partial: false,
       description: `NurseInHome ${type === 'customer' ? 'Booking' : 'Registration'} - ${service || 'Care Service'}`,
