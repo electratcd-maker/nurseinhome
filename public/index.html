@@ -31,6 +31,59 @@
         }
     });
 
+
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to Electra payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed: " + (data.message || "Unknown error"));
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment gateway error.";
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment successful! Reference ID: " + paymentId;
+            }
+        }
+    });
+
 </script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; color: #333; }
@@ -424,7 +477,113 @@
         }
     });
 
+
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to Electra payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed: " + (data.message || "Unknown error"));
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment gateway error.";
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment successful! Reference ID: " + paymentId;
+            }
+        }
+    });
+
 </script>
 
-<script src="bridge.js"></script></body>
+<script src="bridge.js">
+    async function payWithRazorpay(type) {
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Connecting to Electra payment portal...";
+
+        try {
+            const res = await fetch("/api/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 200 })
+            });
+            const data = await res.json();
+
+            if (data.success && data.order) {
+                const redirectUrl = window.location.origin;
+                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                window.location.href = checkoutUrl;
+            } else {
+                alert("Order creation failed: " + (data.message || "Unknown error"));
+                msgEl.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment gateway error.";
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        
+        if (paymentId) {
+            const input = document.getElementById(type === "customer" ? "bookUtr" : "provUtr");
+            const msg = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+            if (input) input.value = paymentId;
+            if (msg) {
+                msg.style.color = "green";
+                msg.innerText = "Payment successful! Reference ID: " + paymentId;
+            }
+        }
+    });
+
+</script></body>
 </html>
