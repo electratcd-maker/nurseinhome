@@ -55,7 +55,7 @@
 
             if (data.success && data.order) {
                 const redirectUrl = window.location.origin;
-                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                const checkoutUrl = `https://nurse.electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
                 window.location.href = checkoutUrl;
             } else {
                 alert("Order creation failed: " + (data.message || "Unknown error"));
@@ -501,7 +501,7 @@
 
             if (data.success && data.order) {
                 const redirectUrl = window.location.origin;
-                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                const checkoutUrl = `https://nurse.electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
                 window.location.href = checkoutUrl;
             } else {
                 alert("Order creation failed: " + (data.message || "Unknown error"));
@@ -556,7 +556,7 @@
 
             if (data.success && data.order) {
                 const redirectUrl = window.location.origin;
-                const checkoutUrl = `https://electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
+                const checkoutUrl = `https://nurse.electra.help/pay.html?order_id=${data.order.id}&key_id=${data.key_id}&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}&type=${type}&redirect=${encodeURIComponent(redirectUrl)}`;
                 window.location.href = checkoutUrl;
             } else {
                 alert("Order creation failed: " + (data.message || "Unknown error"));
