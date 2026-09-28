@@ -3,10 +3,10 @@ const Razorpay = require('razorpay');
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('home'));
 
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || 'rzp_live_dummy',
+  key_id: process.env.RAZORPAY_KEY_ID  || 'rzp_live_dummy',
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret'
 });
 
@@ -28,7 +28,7 @@ app.post('/api/create-payment-link', async (req, res) => {
       amount: 20000,
       currency: 'INR',
       accept_partial: false,
-      description: 'NurseInHome Service Registration',
+      description: 'NurseInHome Care Service Registration',
       customer: { name: name || 'Customer', contact: phone || '' },
       notify: { sms: true, email: false },
       callback_url: 'https://nurseinhome.in/',
@@ -43,7 +43,7 @@ app.post('/api/create-payment-link', async (req, res) => {
 });
 
 app.get('/api/admin/bookings', (req, res) => res.json({ success: true, bookings }));
-app.get('/api/admin/providers', (req, res) => res.json({ success: true, providers }));
+app.get('/api/admin/providers', (req, res) => res.json({ success: true, providers}));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server running on port ' + PORT));
