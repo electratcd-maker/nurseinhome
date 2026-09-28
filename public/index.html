@@ -4,7 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NurseInHome - Professional Home Care Services</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js">
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        
+        if (paymentId) {
+            if (type === "customer") {
+                const input = document.getElementById("bookUtr");
+                const msg = document.getElementById("bookMsg");
+                if (input) input.value = paymentId;
+                if (msg) {
+                    msg.style.color = "green";
+                    msg.innerText = "Payment successful! Reference ID: " + paymentId;
+                }
+            } else {
+                const input = document.getElementById("provUtr");
+                const msg = document.getElementById("provMsg");
+                if (input) input.value = paymentId;
+                if (msg) {
+                    msg.style.color = "green";
+                    msg.innerText = "Payment successful! Reference ID: " + paymentId;
+                }
+            }
+        }
+    });
+
+</script>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; color: #333; }
         .header { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -370,6 +397,33 @@
             console.error('Error loading admin data', err);
         }
     }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") || "customer";
+        
+        if (paymentId) {
+            if (type === "customer") {
+                const input = document.getElementById("bookUtr");
+                const msg = document.getElementById("bookMsg");
+                if (input) input.value = paymentId;
+                if (msg) {
+                    msg.style.color = "green";
+                    msg.innerText = "Payment successful! Reference ID: " + paymentId;
+                }
+            } else {
+                const input = document.getElementById("provUtr");
+                const msg = document.getElementById("provMsg");
+                if (input) input.value = paymentId;
+                if (msg) {
+                    msg.style.color = "green";
+                    msg.innerText = "Payment successful! Reference ID: " + paymentId;
+                }
+            }
+        }
+    });
+
 </script>
 
 </body>
