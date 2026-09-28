@@ -210,51 +210,37 @@
     let verifiedPaymentId = { customer: '', provider: '' };
 
     async function payWithRazorpay(type) {
-        const msgEl = document.getElementById(type === 'customer' ? 'bookMsg' : 'provMsg');
-        msgEl.style.color = '#333';
-        msgEl.innerText = 'Initializing Razorpay secure payment...';
+        const msgEl = document.getElementById(type === "customer" ? "bookMsg" : "provMsg");
+        const name = document.getElementById(type === "customer" ? "bookName" : "provName").value;
+        const phone = document.getElementById(type === "customer" ? "bookPhone" : "provPhone").value;
+        const service = type === "customer" ? document.getElementById("bookService").value : document.getElementById("provRole").value;
+
+        if(!name || !phone) {
+            alert("Please fill in your Name and Phone Number first.");
+            return;
+        }
+
+        msgEl.style.color = "#333";
+        msgEl.innerText = "Redirecting to Razorpay secure checkout...";
 
         try {
-            const orderRes = await fetch('/api/create-order', { method: 'POST' });
-            const orderData = await orderRes.json();
+            const res = await fetch("/api/create-payment-link", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, phone, type, service })
+            });
+            const data = await res.json();
 
-            if (!orderData.success) {
-                alert('Error creating order: ' + orderData.message);
-                msgEl.innerText = '';
-                return;
+            if (data.success && data.payment_url) {
+                window.location.href = data.payment_url;
+            } else {
+                alert("Payment link error: " + (data.message || "Unable to generate link"));
+                msgEl.innerText = "";
             }
-
-            const options = {
-                key: orderData.key_id,
-                amount: orderData.order.amount,
-                currency: "INR",
-                name: "NurseInHome",
-                description: "Registration & Service Fee (₹200)",
-                order_id: orderData.order.id,
-                handler: function (response) {
-                    verifiedPaymentId[type] = response.razorpay_payment_id;
-                    if(type === 'customer') {
-                        document.getElementById('bookUtr').value = response.razorpay_payment_id;
-                    } else {
-                        document.getElementById('provUtr').value = response.razorpay_payment_id;
-                    }
-                    msgEl.style.color = 'green';
-                    msgEl.innerText = 'Payment successful! Reference ID captured.';
-                },
-                prefill: {
-                    name: document.getElementById(type === 'customer' ? 'bookName' : 'provName').value,
-                    contact: document.getElementById(type === 'customer' ? 'bookPhone' : 'provPhone').value
-                },
-                theme: { color: "#0f4c3a" }
-            };
-
-            const rzp = new Razorpay(options);
-            rzp.open();
-            msgEl.innerText = '';
         } catch (err) {
             console.error(err);
-            msgEl.style.color = 'red';
-            msgEl.innerText = 'Payment gateway error.';
+            msgEl.style.color = "red";
+            msgEl.innerText = "Payment gateway error.";
         }
     }
 

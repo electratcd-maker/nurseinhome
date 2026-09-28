@@ -1,110 +1,75 @@
 const express = require('express');
-const path = require('path');
 const Razorpay = require('razorpay');
+const path = require('path');
+
 const app = express();
-
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
-// Corrected lowercase Razorpay Live Credentials
 const razorpay = new Razorpay({
-    key_id: 'rzp_live_SgFENixkcpucYO',
-    key_secret: 'SSZh3lxXY6YksqE5euEhdMFc'
+  key_id: process.env.RAZORPAY_KEY_ID || 'rzp_live_dummy',
+  key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret'
 });
 
+// In-memory data store
 let bookings = [];
 let providers = [];
 
-const ADMIN_USER = "Soniya";
-const ADMIN_PASS = "Sumit";
-
-// Founder Profile Information
-const FOUNDER = {
-    name: "Soniya Pal",
-    qualification: "MSc Nursing",
-    role: "Founder & Chief Nursing Officer"
-};
-
-// API to get Founder details
+// 1. Founder details
 app.get('/api/founder', (req, res) => {
-    res.json({ success: true, founder: FOUNDER });
-});
-
-// Create Razorpay Order for ₹200 Fee with detailed error logging
-app.post('/api/create-order', async (req, res) => {
-    try {
-        const options = {
-            amount: 200 * 100, // ₹200 in paise
-            currency: "INR",
-            receipt: "rcpt_" + Date.now()
-        };
-        const order = await razorpay.orders.create(options);
-        res.json({ success: true, order, key_id: 'rzp_live_SgFENixkcpucYO' });
-    } catch (err) {
-        console.error("Razorpay Order Creation Error:", err);
-        res.status(500).json({ success: false, message: err.error ? err.error.description : err.message });
+  res.json({
+    success: true,
+    founder: {
+      name: 'Soniya Pal',
+      qualification: 'MSc Nursing',
+      role: 'Founder & Chief Nursing Officer'
     }
+  });
 });
 
-// Customer Booking API
-app.post('/api/book', (req, res) => {
-    const { name, phone, serviceType, address, razorpay_payment_id } = req.body;
-    if (!name || !phone || !serviceType || !address) {
-        return res.status(400).json({ success: false, message: 'All booking fields are required.' });
-    }
-    const booking = { 
-        id: 'BK-' + Date.now().toString().slice(-5), 
-        name, 
-        phone, 
-        serviceType, 
-        address, 
-        paymentId: razorpay_payment_id || 'Paid via Razorpay',
-        fee: '₹200',
-        date: new Date().toISOString() 
-    };
-    bookings.push(booking);
-    res.json({ success: true, message: 'Booking & ₹200 payment collected successfully!', booking });
+// 2. Create Razorpay Hosted Payment Link (Bypasses Domain Restrictions)
+app.post('/api/create-payment-link', async (req, res) => {
+  try {
+    const { name, phone, type, service } = req.body;
+
+    const paymentLink = await razorpay.paymentLink.create({
+      amount: 20000, // ₹200 in paise
+      currency: "INR",
+      accept_partial: false,
+      description: `NurseInHome ${type === 'customer' ? 'Booking' : 'Registration'} - ${service || 'Care Service'}`,
+      customer: {
+        name: name || "Customer",
+        contact: phone || ""
+      },
+      notify: {
+        sms: true,
+        email: false
+      },
+      reminder_enable: false,
+      callback_url: "https://nurseinhome.in/",
+      callback_method: "get"
+    });
+
+    res.json({
+      success: true,
+      payment_url: paymentLink.short_url,
+      payment_link_id: paymentLink.id
+    });
+  } catch (error) {
+    console.error('Error creating payment link:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
+// 3. Admin Bookings List
 app.get('/api/admin/bookings', (req, res) => {
-    res.json({ success: true, bookings });
+  res.json({ success: true, bookings: bookings });
 });
 
-// Professional Provider Registration API
-app.post('/api/provider/register', (req, res) => {
-    const { name, phone, role, experience, address, razorpay_payment_id } = req.body;
-    if (!name || !phone || !role || !experience || !address) {
-        return res.status(400).json({ success: false, message: 'All registration fields are required.' });
-    }
-    const provider = { 
-        id: 'PRV-' + Date.now().toString().slice(-5), 
-        name, 
-        phone, 
-        role, 
-        experience, 
-        address, 
-        paymentId: razorpay_payment_id || 'Paid via Razorpay', 
-        fee: '₹200',
-        date: new Date().toISOString() 
-    };
-    providers.push(provider);
-    res.json({ success: true, message: 'Professional registration & ₹200 fee collected successfully!', provider });
-});
-
+// 4. Admin Providers List
 app.get('/api/admin/providers', (req, res) => {
-    res.json({ success: true, providers });
+  res.json({ success: true, providers: providers });
 });
 
-// Admin Login API
-app.post('/api/admin/login', (req, res) => {
-    const { username, password } = req.body;
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
-        res.json({ success: true, message: 'Login successful' });
-    } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
-});
-
-app.listen(3000, () => {
-    console.log('NurseInHome server running at http://localhost:3000');
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
