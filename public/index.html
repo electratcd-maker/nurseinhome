@@ -216,12 +216,12 @@
         const service = type === "customer" ? document.getElementById("bookService").value : document.getElementById("provRole").value;
 
         if(!name || !phone) {
-            alert("Please fill in your Name and Phone Number first.");
+            alert("Please enter your Name and Phone Number first.");
             return;
         }
 
         msgEl.style.color = "#333";
-        msgEl.innerText = "Redirecting to Razorpay secure checkout...";
+        msgEl.innerText = "Redirecting to secure Razorpay checkout...";
 
         try {
             const res = await fetch("/api/create-payment-link", {
@@ -234,7 +234,7 @@
             if (data.success && data.payment_url) {
                 window.location.href = data.payment_url;
             } else {
-                alert("Payment link error: " + (data.message || "Unable to generate link"));
+                alert("Payment error: " + (data.message || "Could not generate payment link"));
                 msgEl.innerText = "";
             }
         } catch (err) {
